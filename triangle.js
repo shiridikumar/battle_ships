@@ -6,7 +6,7 @@ import { Water } from './Water.js';
 import { Sky } from "./Sky.js"
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 20000);
-camera.position.set(0, 5,2);
+camera.position.set(0, 1, 2.5);
 
 
 const renderer = new THREE.WebGLRenderer();
@@ -14,10 +14,14 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 const loader = new GLTFLoader();
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.autoRotate = true;
 controls.maxPolarAngle = Math.PI * 0.495;
-controls.target.set(0,4 , 0);
+controls.target.set(0, 0.5, 0);
 controls.maxDistance = 200.0;
 controls.update();
+
+
+let obj;
 
 
 
@@ -33,17 +37,20 @@ renderer.outputEncoding = THREE.sRGBEncoding;
 const loadcont = async () => {
     await loader.load(
         // resource URL
-        "ship/source/cargo ship.glb",
+        "./scene.gltf",
         // called when the resource is loaded
         function (gltf) {
-            const obj=gltf.scene;
-            obj.position.y=4;
-            obj.rotation.set(0,Math.PI/2,0)
-            obj.position.x=-0.5;
+            obj = gltf.scene;
+            // obj.position.set(0,-50,0);
+            obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI);
+            obj.translateY(0);
             scene.add(obj);
+            obj.position.x = 0;
+            obj.position.y = 0.5;
+            obj.position.z = 0;
+            renderer.render(scene, camera);
             gltf.animations;
             gltf.scenes;
-            renderer.render(scene, camera);
             gltf.asset;
         },
         function (xhr) {
@@ -57,24 +64,25 @@ const loadcont = async () => {
 }
 
 
+
 const waterGeometry = new THREE.PlaneGeometry(10000, 10000);
 const water = new Water(
-  waterGeometry,
-  {
-    textureWidth: 512,
-    textureHeight: 512,
-    waterNormals: new THREE.TextureLoader().load('waternormals.jpeg', function ( texture ) {
-      texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    }),
-    alpha: 1.0,
-    sunDirection: new THREE.Vector3(),
-    sunColor: 0xffffff,
-    waterColor: 0x001e0f,
-    distortionScale: 3.7,
-    fog: scene.fog !== undefined
-  }
+    waterGeometry,
+    {
+        textureWidth: 512,
+        textureHeight: 512,
+        waterNormals: new THREE.TextureLoader().load('waternormals.jpeg', function (texture) {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        }),
+        alpha: 1.0,
+        sunDirection: new THREE.Vector3(),
+        sunColor: 0xffffff,
+        waterColor: 0x001e0f,
+        distortionScale: 3.7,
+        fog: scene.fog !== undefined
+    }
 );
-water.rotation.x =- Math.PI / 2;
+water.rotation.x = - Math.PI / 2;
 scene.add(water);
 
 const waterUniforms = water.material.uniforms;
@@ -107,6 +115,53 @@ sky.material.uniforms['sunPosition'].value.copy(sun);
 scene.environment = pmremGenerator.fromScene(sky).texture;
 
 loadcont();
+
+document.addEventListener("keydown", onDocumentKeyDown, false);
+let vel = 0.25;
+function onDocumentKeyDown(event) {
+    var keyCode = event.which;
+    if (keyCode == 87) {
+        obj.translateZ(vel);
+        camera.translateZ(-vel);
+    }
+     else if (keyCode == 83) {
+        camera.translateZ(vel);
+    } 
+    else if (keyCode == 65) {
+        obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), vel / 50);
+        obj.translateZ(vel);
+        camera.translateZ(-vel);
+        camera.rotateOnAxis(new THREE.Vector3(0, 1, 0), vel / 50);
+    }
+     else if (keyCode == 68) {
+        obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), -vel / 50);
+        obj.translateZ(vel);
+        camera.translateZ(-vel);
+        camera.rotateOnAxis(new THREE.Vector3(0, 1, 0), -vel / 50)
+    }
+     else if (keyCode == 32) {
+        obj.rotateY(-vel / 10);
+    }
+    render();
+};
+
+
+
+function animate() {
+
+    requestAnimationFrame(animate);
+
+    render();
+
+}
+
+
+var render = function () {
+    controls.target.set(obj.position.x, obj.position.y+0.3, obj.position.z);
+    controls.update();
+   // camera.position.set(obj.position.x, obj.position.y + 0.5, obj.position.z + 2.5)
+    renderer.render(scene, camera);
+};
 
 
 

@@ -1,0 +1,11 @@
+Model Information:
+* title:	MO-class small guard ship
+* source:	https://sketchfab.com/3d-models/mo-class-small-guard-ship-7083c470eea44d5a97833b0a6665f2a4
+* author:	Vladislav Boytsov (https://sketchfab.com/Pitty)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "MO-class small guard ship" (https://sketchfab.com/3d-models/mo-class-small-guard-ship-7083c470eea44d5a97833b0a6665f2a4) by Vladislav Boytsov (https://sketchfab.com/Pitty) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
