@@ -23,9 +23,6 @@ var controls = new OrbitControls(camera, renderer.domElement);
 
 
 let obj;
-
-
-
 const light = new THREE.AmbientLight(0x404040); // soft white light
 scene.add(light);
 
@@ -35,7 +32,6 @@ dracoLoader.setDecoderPath('/examples/js/libs/draco/');
 loader.setDRACOLoader(dracoLoader);
 renderer.outputEncoding = THREE.sRGBEncoding;
 // Load a glTF resource
-let loaded=0;
 const loadcont = async () => {
     await loader.load(
         // resource URLgit 
@@ -51,7 +47,7 @@ const loadcont = async () => {
             obj.position.y = 0.5;
             obj.position.z = 0;
             renderer.render(scene, camera);
-            loaded=1;
+            loaded = 1;
             gltf.animations;
             gltf.scenes;
             gltf.asset;
@@ -66,6 +62,26 @@ const loadcont = async () => {
     );
 }
 
+
+let original;
+let loaded = 0;
+const load_enemies = async() => {
+    await loader.load(
+        "../ship/source/cargo ship.glb",
+        function (gltf) {
+            original=gltf.scene;
+            gltf.asset;
+            loaded=1;
+        },
+        function (xhr) {
+            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        },
+        function (error) {
+            console.log(error);
+        }
+    );
+}
+load_enemies();
 
 
 const waterGeometry = new THREE.PlaneGeometry(10000, 10000);
@@ -136,6 +152,7 @@ function onDocumentKeyDown(event) {
         obj.translateZ(vel);
         camera.translateOnAxis(new THREE.Vector3(0, 0, 1), -vel);
 
+
         // camera.lookAt(obj.position);
         // camera.rotateOnAxis(new THREE.Vector3(0, 1, 0), vel / 50);
     }
@@ -162,39 +179,35 @@ function animate() {
     render();
 
 }
+
 let ind = 0
 setInterval(async () => {
-    let enemy;
     console.log("called");
     console.log(camera.position);
-    if (ind != 1 && loaded==1) {
-        ind=1;
-        await loader.load(
-            "../ship/source/cargo ship.glb",
-            function (gltf) {
-                enemy = gltf.scene;
-                // obj.position.set(0,-50,0);
-                enemy.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI);
-                scene.add(enemy);
-                enemy.position.x = obj.position.x;
-                enemy.position.y = 0.5;
-                enemy.position.z = obj.position.z-6;
-                gltf.animations;
-                gltf.scenes;
-                render();
-                ind=0
-                gltf.asset;
-            },
-            function (xhr) {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    for(var i=0;i<5;i++){
+        if (ind != 1 && loaded == 1) {
+            let enemy;
+            var x = obj.position.x; var y = obj.position.y; var z = obj.position.z;
+            console.log(x, y, z);
+            console.log(obj.position);
+            let new_ob = new THREE.Vector3(x, y, z);
+            obj.getWorldDirection(new_ob);
 
-            },
-            function (error) {
-                console.log(error);
-            }
-        );
-    };
-    console.log(obj);
+            let x_axis = new THREE.Vector3().crossVectors(new_ob, new THREE.Vector3(0, 1, 0))
+
+            console.log(new_ob);
+            enemy = original.clone();
+
+            enemy.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI);
+            scene.add(enemy);
+            console.log(obj.position, new_ob)
+            enemy.position.x = obj.position.x + 4*new_ob.x+i*x_axis.x;
+            enemy.position.y = obj.position.y + 4*new_ob.y+i*x_axis.y;
+            enemy.position.z = obj.position.z + 4*new_ob.z+i*x_axis.z;
+            render();
+            ind = 0;
+        }
+    }
 
 }, 5000);
 
