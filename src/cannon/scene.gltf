@@ -1,0 +1,424 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        -2.851548910140991,
+        8.519709587097168,
+        1.3891819715499878
+      ],
+      "min": [
+        -4.901287078857422,
+        6.639051914215088,
+        -0.7103480100631714
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 786384,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.9999867081642151,
+        0.9460299611091614,
+        0.9999696016311646
+      ],
+      "min": [
+        -0.9994155764579773,
+        -0.9999955892562866,
+        -0.9999796748161316
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.9357699751853943,
+        0.9930660128593445
+      ],
+      "min": [
+        5.199999941396527e-05,
+        0.1255519986152649
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 354483,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 1572768,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        -2.854062080383301,
+        8.717266082763672,
+        1.388414978981018
+      ],
+      "min": [
+        -4.9330058097839355,
+        6.6557111740112305,
+        -0.7099660038948059
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 2359152,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.9995971322059631,
+        0.99995356798172,
+        0.9999276995658875
+      ],
+      "min": [
+        -0.9999977350234985,
+        -0.9986867308616638,
+        -0.9981988668441772
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 524256,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.9336220026016235,
+        0.9957000017166138
+      ],
+      "min": [
+        0.0015269999857991934,
+        0.05328800156712532
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 1417932,
+      "componentType": 5125,
+      "count": 345312,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 3145536,
+      "componentType": 5126,
+      "count": 65534,
+      "max": [
+        -2.8517110347747803,
+        8.717266082763672,
+        1.3891819715499878
+      ],
+      "min": [
+        -4.9330058097839355,
+        6.638743877410889,
+        -0.7098429799079895
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 3931944,
+      "componentType": 5126,
+      "count": 65534,
+      "max": [
+        0.9999513030052185,
+        0.9999485015869141,
+        0.9996201992034912
+      ],
+      "min": [
+        -0.9999679923057556,
+        -0.9999690055847168,
+        -0.9998229742050171
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 1048512,
+      "componentType": 5126,
+      "count": 65534,
+      "max": [
+        0.9358540177345276,
+        0.9999430179595947
+      ],
+      "min": [
+        0.00011600000289035961,
+        2.2000000171829015e-05
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 2799180,
+      "componentType": 5125,
+      "count": 270903,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 4718352,
+      "componentType": 5126,
+      "count": 1069,
+      "max": [
+        -2.864293098449707,
+        7.639021873474121,
+        1.3837480545043945
+      ],
+      "min": [
+        -3.9982450008392334,
+        7.209864139556885,
+        0.43087899684906006
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 4731180,
+      "componentType": 5126,
+      "count": 1069,
+      "max": [
+        0.9995650053024292,
+        0.8353719115257263,
+        0.9995788335800171
+      ],
+      "min": [
+        -0.4828689396381378,
+        -0.9393662214279175,
+        -0.9733468294143677
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 1572784,
+      "componentType": 5126,
+      "count": 1069,
+      "max": [
+        0.4221790134906769,
+        0.8724290132522583
+      ],
+      "min": [
+        0.10270600020885468,
+        0.6226649880409241
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 3882792,
+      "componentType": 5125,
+      "count": 2370,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "The Mel Fisher Maritime Museum (https://sketchfab.com/mfmaritimemuseum)",
+      "license": "CC-BY-NC-ND-4.0 (http://creativecommons.org/licenses/by-nc-nd/4.0/)",
+      "source": "https://sketchfab.com/3d-models/santa-margarita-iron-round-shot-19860080827b-59ef0287268645c09f30167fad375337",
+      "title": "Santa Margarita Iron Round Shot 1986.008.0827b"
+    },
+    "generator": "Sketchfab-11.29.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 3892272,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1581336,
+      "byteOffset": 3892272,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 4744008,
+      "byteOffset": 5473608,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 10217616,
+      "uri": "scene.bin"
+    }
+  ],
+  "extensionsUsed": [
+    "KHR_materials_unlit"
+  ],
+  "images": [
+    {
+      "uri": "textures/Santa_Margarita_Iron_Shot_OBJ_baseColor.jpeg"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_unlit": {}
+      },
+      "name": "Santa_Margarita_Iron_Shot_OBJ",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.0
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_1",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 5,
+            "POSITION": 4,
+            "TEXCOORD_0": 6
+          },
+          "indices": 7,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_2",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 9,
+            "POSITION": 8,
+            "TEXCOORD_0": 10
+          },
+          "indices": 11,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_3",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 13,
+            "POSITION": 12,
+            "TEXCOORD_0": 14
+          },
+          "indices": 15,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        -0.05303649231791496,
+        -0.06272830814123176,
+        0.9966204166412354,
+        0.0,
+        -0.643467128276825,
+        -0.7610534429550171,
+        -0.08214444667100923,
+        0.0,
+        0.7636341452598572,
+        -0.6456491947174072,
+        2.3170533332582182e-17,
+        0.0,
+        0.5826383829116821,
+        6.157771587371827,
+        -3.168169260025023,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "name": "Santa Margarita Iron Shot OBJ.obj.cleaner.materialmerger.gles"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_2"
+    },
+    {
+      "mesh": 1,
+      "name": "Object_3"
+    },
+    {
+      "mesh": 2,
+      "name": "Object_4"
+    },
+    {
+      "mesh": 3,
+      "name": "Object_5"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    }
+  ]
+}

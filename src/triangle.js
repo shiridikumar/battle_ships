@@ -26,7 +26,7 @@ let obj;
 let enemies = [];
 const light = new THREE.AmbientLight(0x404040); // soft white light
 scene.add(light);
-
+let cannonload=0;
 // Optional: Provide a DRACOLoader instance to decode compressed mesh data
 const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath('/examples/js/libs/draco/');
@@ -63,6 +63,32 @@ const loadcont = async () => {
         }
     );
 }
+
+let cannon;
+const loadcannon = async () => {
+    await loader.load(
+        // resource URLgit 
+        "./cannon/scene.gltf",
+        // called when the resource is loaded
+        function (gltf) {
+            cannon = gltf.scene
+            cannon.scale.set(0.1,0.1,0.1);
+            // obj.position.set(0,-50,0);
+            // .rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI);
+            // obj.translateY(0);
+            cannonload=1;
+        },
+        function (xhr) {
+            //.log((xhr.loaded / xhr.total * 100) + '% loaded');
+
+        },
+        function (error) {
+            //.log(error);
+        }
+    );
+}
+
+loadcannon();
 //
 
 let original;
@@ -133,7 +159,7 @@ sky.material.uniforms['sunPosition'].value.copy(sun);
 scene.environment = pmremGenerator.fromScene(sky).texture;
 
 loadcont();
-
+let shots=[];
 document.addEventListener("keydown", onDocumentKeyDown, false);
 let vel = 0.125;
 function onDocumentKeyDown(event) {
@@ -143,8 +169,13 @@ function onDocumentKeyDown(event) {
         camera.translateZ(-vel);
     }
     else if (keyCode == 83) {
-        camera.translateZ(vel);
         obj.translateZ(-vel);
+        var obj_z_dir=new THREE.Vector3();
+        obj.getWorldDirection(obj_z_dir);
+        camera.position.x-=obj_z_dir.x*vel;
+        camera.position.y-=obj_z_dir.y*vel;
+        camera.position.z-=obj_z_dir.z*vel;
+    
     }
     else if (keyCode == 65) {
         obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), vel / 25);
@@ -165,6 +196,14 @@ function onDocumentKeyDown(event) {
     else if (keyCode == 32) {
         obj.rotateY(-vel / 10);
     }
+
+    else if(keyCode==66){
+        if(cannonload==1){
+            console.log("cannon shot");
+            cannonshot(obj);
+            // cannon.position.x=obj.position.x+0.4;cannon.position.y=obj.position.y;cannon.position.z=obj.position.z;
+        }
+    }
     render();
 };
 
@@ -174,7 +213,7 @@ function animate() {
     requestAnimationFrame(animate);
     if (loaded == 1) {
         for (var i = 0; i < enemies.length; i++) {
-            var dir = new THREE.Vector3(obj.position.x - enemies[i].position.x, obj.position.y - enemies[i].position.y, obj.position.z - enemies[i].position.z-0.3).normalize();
+            var dir = new THREE.Vector3(obj.position.x - enemies[i].position.x+0.4, obj.position.y - enemies[i].position.y, obj.position.z - enemies[i].position.z-0.3).normalize();
             var obj_z=new THREE.Vector3();
             obj.getWorldDirection(obj_z);
             enemies[i].position.x += dir.x / 50,
@@ -189,13 +228,10 @@ function animate() {
             dir.x*=-1;dir.y*=-1;dir.z*=-1;
             if(x_axis.angleTo(dir)<Math.PI/2){
                 enemies[i].rotateOnAxis(new THREE.Vector3(0, 1, 0), -1 * dir.angleTo(enemy_x)/50); 
-                console.log("left side");
             }
             else{
                 enemies[i].rotateOnAxis(new THREE.Vector3(0, 1, 0), (dir.angleTo(enemy_x))/50); 
-                console.log("right side");
             }
-
         }
         render();
     }
@@ -236,7 +272,8 @@ setInterval(async () => {
             enemy.rotateOnAxis(new THREE.Vector3(0, 1, 0), -1 * dir.angleTo(enemy_x))
             // //.log(dir.angleTo(enemy_x)*57.29);
             dir.x*=-1;dir.y*=-1;dir.z*=-1;
-
+            loaded=2;
+            cannonshot(enemy);
             console.log(x_axis.angleTo(dir)*57.29);
             enemies.push(enemy);
             render();
@@ -255,5 +292,17 @@ var render = function () {
 };
 
 
+const cannonshot=(ship)=>{
+    if(cannonload==1){
+        var dup=cannon.clone();
+        let new_ob = new THREE.Vector3();
+        obj.getWorldDirection(new_ob);
+        let x_axis = new THREE.Vector3().crossVectors(new_ob, new THREE.Vector3(0, 1, 0))
+        dup.position.x=ship.position.x//+x_axis.x*0.4;
+        dup.position.y=ship.position.y//+x_axis.y*0.4;
+        dup.position.z=ship.position.z//+x_axis.z*0.4;
+        scene.add(dup);
+    }
 
+}
 animate();
