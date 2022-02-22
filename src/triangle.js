@@ -42,12 +42,13 @@ const loadcont = async () => {
         function (gltf) {
             obj = gltf.scene;
             // obj.position.set(0,-50,0);
-            obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI);
+            obj.rotateOnAxis(new THREE.Vector3(0, 1, 0),Math.PI);
             obj.translateY(0);
             scene.add(obj);
             obj.position.x = 0;
             obj.position.y = 0.5;
             obj.position.z = 0;
+
             renderer.render(scene, camera);
             loaded = 1;
             gltf.animations;
@@ -94,9 +95,10 @@ loadcannon();
 let original;
 const load_enemies = async () => {
     await loader.load(
-        "../ship/source/cargo ship.glb",
+        "./enemy_ship/scene.gltf",
         function (gltf) {
             original = gltf.scene;
+            original.scale.set(0.06,0.06,0.06);
             gltf.asset;
         },
         function (xhr) {
@@ -181,17 +183,13 @@ function onDocumentKeyDown(event) {
         obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), vel / 25);
         obj.translateZ(vel);
         camera.translateOnAxis(new THREE.Vector3(0, 0, 1), -vel);
-
-
-        // camera.lookAt(obj.position);
-        // camera.rotateOnAxis(new THREE.Vector3(0, 1, 0), vel / 50);
     }
+    
     else if (keyCode == 68) {
         obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), -vel / 25);
         obj.translateZ(vel);
         camera.translateOnAxis(new THREE.Vector3(0, 0, 1), -vel);
-        // camera.rotateOnAxis(new THREE.Vector3(0, 1, 0), -vel / 50)
-        // camera.lookAt(obj.position)
+        
     }
     else if (keyCode == 32) {
         obj.rotateY(-vel / 10);
@@ -204,6 +202,10 @@ function onDocumentKeyDown(event) {
             // cannon.position.x=obj.position.x+0.4;cannon.position.y=obj.position.y;cannon.position.z=obj.position.z;
         }
     }
+    else if(keyCode==88){
+        camera.translateZ(vel);
+
+    }
     render();
 };
 
@@ -213,7 +215,7 @@ function animate() {
     requestAnimationFrame(animate);
     if (loaded == 1) {
         for (var i = 0; i < enemies.length; i++) {
-            var dir = new THREE.Vector3(obj.position.x - enemies[i].position.x+0.4, obj.position.y - enemies[i].position.y, obj.position.z - enemies[i].position.z-0.3).normalize();
+            var dir = new THREE.Vector3(obj.position.x - enemies[i].position.x, obj.position.y - enemies[i].position.y, obj.position.z - enemies[i].position.z-0.3).normalize();
             var obj_z=new THREE.Vector3();
             obj.getWorldDirection(obj_z);
             enemies[i].position.x += dir.x / 50,
@@ -227,10 +229,10 @@ function animate() {
             let x_axis = new THREE.Vector3().crossVectors(obj_z, new THREE.Vector3(0, 1, 0));
             dir.x*=-1;dir.y*=-1;dir.z*=-1;
             if(x_axis.angleTo(dir)<Math.PI/2){
-                enemies[i].rotateOnAxis(new THREE.Vector3(0, 1, 0), -1 * dir.angleTo(enemy_x)/50); 
+                enemies[i].rotateOnAxis(new THREE.Vector3(0, 1, 0),   dir.angleTo(enemy_z)/50); 
             }
             else{
-                enemies[i].rotateOnAxis(new THREE.Vector3(0, 1, 0), (dir.angleTo(enemy_x))/50); 
+                enemies[i].rotateOnAxis(new THREE.Vector3(0, 1, 0), (-1*dir.angleTo(enemy_z))/50); 
             }
         }
         render();
@@ -256,10 +258,11 @@ setInterval(async () => {
             enemy = original.clone();
 
             //2*Math.PI-dir.angleTo(enemy_x));
-            scene.add(enemy);
+
             //.log(obj.position, new_ob);
             var pos_z = gen_random(18, 10);
             var pos_i = gen_random(6, -6);
+            // pos_z=1;
             enemy.position.x = obj.position.x + pos_z * new_ob.x + pos_i * x_axis.x;
             enemy.position.y = obj.position.y + pos_z * new_ob.y + pos_i * x_axis.y;
             enemy.position.z = obj.position.z + pos_z * new_ob.z + pos_i * x_axis.z;
@@ -269,11 +272,13 @@ setInterval(async () => {
             enemy.getWorldDirection(enemy_z);
             var enemy_x = new THREE.Vector3().crossVectors(enemy_z, new THREE.Vector3(0, 1, 0))
             enemy_x.x *= -1; enemy_x.y *= -1; enemy_x.z *= -1
-            enemy.rotateOnAxis(new THREE.Vector3(0, 1, 0), -1 * dir.angleTo(enemy_x))
+            enemy.rotateOnAxis(new THREE.Vector3(0, 1, 0),   dir.angleTo(enemy_z))
             // //.log(dir.angleTo(enemy_x)*57.29);
             dir.x*=-1;dir.y*=-1;dir.z*=-1;
-            loaded=2;
-            cannonshot(enemy);
+            scene.add(enemy);
+            loaded=1;
+        
+            cannonshot_enemy(enemy);
             console.log(x_axis.angleTo(dir)*57.29);
             enemies.push(enemy);
             render();
@@ -295,14 +300,42 @@ var render = function () {
 const cannonshot=(ship)=>{
     if(cannonload==1){
         var dup=cannon.clone();
+        var obj_z=new THREE.Vector3();
+        ship.getWorldDirection(obj_z);
+        var zaxis=new THREE.Vector3(1,0,0);
+        console.log(zaxis.angleTo(obj_z)*57.29);
+        // dup.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0),-1*(Math.PI/2-zaxis.angleTo(obj_z)));
+
         let new_ob = new THREE.Vector3();
-        obj.getWorldDirection(new_ob);
+        dup.getWorldDirection(new_ob);
         let x_axis = new THREE.Vector3().crossVectors(new_ob, new THREE.Vector3(0, 1, 0))
-        dup.position.x=ship.position.x//+x_axis.x*0.4;
-        dup.position.y=ship.position.y//+x_axis.y*0.4;
-        dup.position.z=ship.position.z//+x_axis.z*0.4;
+        dup.position.x=ship.position.x-x_axis.x*0.4+new_ob.x*0.75;
+        dup.position.y=ship.position.y-x_axis.y*0.4+new_ob.y*0.75;
+        dup.position.z=ship.position.z-x_axis.z*0.4+new_ob.z*0.75;
         scene.add(dup);
     }
 
 }
+
+
+const cannonshot_enemy=(ship)=>{
+    if(cannonload==1){
+        var dup=cannon.clone();
+        var obj_z=new THREE.Vector3();
+        ship.getWorldDirection(obj_z);
+        var zaxis=new THREE.Vector3(1,0,0);
+        console.log(zaxis.angleTo(obj_z)*57.29);
+        // dup.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0),-1*(Math.PI/2-zaxis.angleTo(obj_z)));
+
+        let new_ob = new THREE.Vector3();
+        dup.getWorldDirection(new_ob);
+        let x_axis = new THREE.Vector3().crossVectors(new_ob, new THREE.Vector3(0, 1, 0))
+        let objx= new THREE.Vector3().crossVectors(obj_z, new THREE.Vector3(0, 1, 0))
+        dup.position.x=ship.position.x-x_axis.x*0.4//+ obj_z.x*1//-0.4*objx.x;
+        dup.position.y=ship.position.y-x_axis.y*0.4//+ obj_z.y*1//-0.4*objx.y;
+        dup.position.z=ship.position.z-x_axis.z*0.4//+ obj_z.z*1//-0.4*objx.z;
+        scene.add(dup);
+    }
+}
+
 animate();
