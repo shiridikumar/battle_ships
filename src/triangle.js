@@ -18,9 +18,9 @@ var controls = new OrbitControls(camera, renderer.domElement);
 // controls.target.set(0, 0.8, 0);
 // controls.maxDistance = 200.0;
 // controls.update();
+let time=0;
 let treasures=0;
 let kills=0;
-
 
 let obj;
 let score = 0;
@@ -262,7 +262,7 @@ function onDocumentKeyDown(event) {
 
 // ---------------------------------------------------------A Key -------------------------------------------------
     else if (keyCode == 65) {
-        obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), vel / 25);
+        obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), vel / 20);
         obj.translateZ(vel);
         // camera.translateOnAxis(new THREE.Vector3(0, 0, 1), -vel);
         if(top_view==0){
@@ -272,7 +272,7 @@ function onDocumentKeyDown(event) {
             camera.translateY( vel);
         }
         if(checkcollision()){
-            obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), vel / -25);
+            obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), vel / -20);
             obj.translateZ(-vel);
             if(top_view==0){
                 camera.translateZ( vel);
@@ -284,7 +284,7 @@ function onDocumentKeyDown(event) {
     }
 // -----------------------------------------------------------------------D Key---------------------------------------------------------
     else if (keyCode == 68) {
-        obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), -vel / 25);
+        obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), -vel / 20);
         obj.translateZ(vel);
         if(top_view==0){
             camera.translateZ( -vel);
@@ -293,7 +293,7 @@ function onDocumentKeyDown(event) {
             camera.translateY(vel);
         }
         if(checkcollision()){
-            obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), vel / 25);
+            obj.rotateOnAxis(new THREE.Vector3(0, 1, 0), vel / 20);
             obj.translateZ(-vel);
             if(top_view==0){
                 camera.translateZ(vel);
@@ -349,15 +349,36 @@ function onDocumentKeyDown(event) {
     }
     render();
 };
-
-
+let ended=0;
+const endfunction=()=>{
+    ended=1;
+    document.getElementById("time1").innerHTML='Time: '+String(parseInt(time/60)).padStart(2,'0')+':'+String(parseInt(time%60)).padStart(2,'0');
+    document.getElementById("score1").innerHTML="Score: "+score;
+    document.getElementById("kills1").innerHTML="Kills: "+kills;
+    document.getElementById("chests1").innerHTML="Treasure chests collected: "+treasures;
+    document.getElementById("health1").innerHTML="Health: "+playerhealth;
+    document.getElementById("game-over").style.visibility="visible";
+    for(var i=0;i<enemies.length;i++){
+        if(enemies_health[i]>0){
+            scene.remove(enemies[i]);
+            enemies_health[i]=-1;
+        }
+    }
+    for(var i=0;i<chest_array.length;i++){
+        scene.remove(chest_array[i]);
+    }
+}
 //-----------------------------------------------------Animate-----------------------------------------------------------------------------------
 function animate() {
     requestAnimationFrame(animate);
     if(playerhealth<=0){
         scene.remove(obj);
         renderer.render(scene, camera);
+        endfunction();
         return 1;
+    }
+    if(time>180){
+        endfunction();
     }
     if (loaded == 1) {
         for (var i = 0; i < enemies.length; i++) {
@@ -405,17 +426,19 @@ function animate() {
                     if (collision && enemies_health[j] > 0) {
                         enemies_health[j] -= 10;
                         score+=2;
+                        document.getElementById("score").innerHTML="Score: "+score;
                         scene.remove(shots[i][0]);
                         shots[i][2] = -1;
                         //(j, enemies_health[j]);
                         if(enemies_health[j]<=0){
                             score+=10;
                             kills+=1;
+                            document.getElementById("kills").innerHTML="Kills: "+kills;
+                            document.getElementById("score").innerHTML="Score: "+score;
                         }
                         break;
                     }
                 }
-
             }
             if (shots[i][2] <= 0) {
                 scene.remove(shots[i][0]);
@@ -435,6 +458,7 @@ function animate() {
 
                 if (playerhealth > 0 && collision) {
                     playerhealth -= 10;
+                    document.getElementById("health").innerHTML="Health: "+playerhealth;
                     shotsenemy[i][2] = -1;
                     //(playerhealth);
                     if (playerhealth <= 0) {
@@ -458,6 +482,8 @@ function animate() {
                 if (collision && playerhealth > 0) {
                     score += 20;
                     treasures+=1;
+                    document.getElementById("score").innerHTML="Score: "+score;
+                    document.getElementById("chests").innerHTML="Treasure chests collected: "+treasures;
                     scene.remove(chest_array[i][0]);
                     //(score);
                     chest_array[i][1] = 1;
@@ -483,8 +509,8 @@ let num_enemies = 0;
 setInterval(async () => {
     //.log("called");
     //.log(camera.position);
-    for (var i = 0; i < 2; i++) {
-        if (ind != 1 && loaded == 1 && num_enemies < 20 && chestloaded) {
+    for (var i = 0; i < 3; i++) {
+        if (ind != 1 && loaded == 1 && num_enemies < 27 && chestloaded) {
             let enemy;
             var x = obj.position.x; var y = obj.position.y; var z = obj.position.z;
             //.log(x, y, z);
@@ -523,7 +549,7 @@ setInterval(async () => {
             num_enemies += 1;
             render();
             ind = 0;
-            if(chest_array.length<20){
+            if(chest_array.length<25){
 
                 let chest;
                 chest = originalchest.clone();
@@ -554,6 +580,14 @@ setInterval(async () => {
         }
     }
 }, 2000);
+
+
+setInterval(async () => {
+    if(ended!=1){
+        time+=1;
+        document.getElementById("time").innerHTML='Time: '+String(parseInt(time/60)).padStart(2,'0')+':'+String(parseInt(time%60)).padStart(2,'0');
+    }
+}, 1000);
 
 //-----------------------------------------------------------render function--------------------------------------------------------------------
 

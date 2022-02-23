@@ -6,10 +6,67 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .scoreboard {
+            z-index: 10;
+            position: absolute;
+
+        }
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            list-style: none;
+        }
+
+        li {
+            margin: 10px;
+            color: black;
+            font-weight: bolder;
+        }
+
+        #game-over {
+            border: 2px solid black;
+            border-radius: 10px;
+            height: 400px;
+            width: 500px;
+            justify-content: center;
+            z-index: 10;
+            position: absolute;
+            margin: 150px 410px;visibility: hidden;
+
+        }
+        #game-over ul{
+            display: flex;
+            flex-direction: column;
+            margin:5px;
+            list-style: none;
+
+        }
+    </style>
 </head>
 
 <body>
+    <div class="scoreboard">
+        <ul>
+            <li id="time">Time: 00:00</li>
+            <li id="health">Health: 200 </li>
+            <li id="kills">Kills: 0</li>
+            <li id="chests">Treasure chests collected: 0</li>
+            <li id="score">Total Score: 0</li>
+        </ul>
+    </div>
     <script src="triangle.js" type="module"></script>
+    <div id="game-over">
+        <h1 style="text-align: center;">Game Over</h1>
+        <ul>
+            <li id="time1">Time: </li>
+            <li id="health1">Health: </li>
+            <li id="kills1">Kills: </li>
+            <li id="chests1">Treasure chests collected: </li>
+            <li id="score1">Total Score: </li>
+        </ul>
+    </div>
 </body>
 
 </html>
